@@ -1,0 +1,3 @@
+include ':HookLaunchLib'
+include ':app'
+rootProject.name = "HookLaunchActivity"
