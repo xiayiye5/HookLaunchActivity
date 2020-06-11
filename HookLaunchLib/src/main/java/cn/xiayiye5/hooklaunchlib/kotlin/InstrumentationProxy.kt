@@ -14,7 +14,8 @@ class InstrumentationProxy //通过构造函数来传递对象
     (var target: Instrumentation) :
     Instrumentation() {
     private var hasHook = false
-    override fun callActivityOnCreate(activity: Activity, icicle: Bundle) {
+    //Kotlin版本中下面的Bundle?必须添加可以?为空标识，否则启动APP的启动页会报错
+    override fun callActivityOnCreate(activity: Activity, bundle: Bundle?) {
         // TODO Auto-generated method stub
         Log.d(
             TAG,
@@ -23,15 +24,12 @@ class InstrumentationProxy //通过构造函数来传递对象
         if (isMainActivity(activity) && !hasHook) {
             changeActivityHasCalled(activity)
             activity.startActivity(
-                Intent(
-                    activity,
-                    ProxyActivity::class.java
-                )
+                Intent(activity, ProxyActivity::class.java)
             )
             activity.finish()
             hasHook = true
         } else {
-            target.callActivityOnCreate(activity, icicle)
+            target.callActivityOnCreate(activity, bundle)
         }
     }
 
